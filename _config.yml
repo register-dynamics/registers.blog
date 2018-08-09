@@ -22,8 +22,22 @@ description: >- # this means to ignore newlines until "baseurl:"
   data and the powerful Registers technology that makes it possible.
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://registers.blog/" # the base hostname & protocol for your site, e.g. http://example.com
+lang: en_GB
+
 twitter_username: regdyn
 #github_username:  register-dynamics
+
+twitter:
+  type: summary
+  username: regdyn
+
+data:
+  authors:
+    Andy Bennett:
+      twitter: databasescaling
+    Simon Worthington:
+      twitter: 51M0NW
+
 
 # Build settings
 markdown: kramdown
