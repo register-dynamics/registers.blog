@@ -1,7 +1,16 @@
 ---
-title: Social trust, technical trust, data trusts
+title: Legal trust + technical trust = data trusts
 author: Andy Bennett
+image: "img/system-lock.jpg"
+excerpt: |
+  Technical trust and legal trust are both insufficient by themselves
+  to ensure protection of valuable data. Instead we need a vehicle that
+  combines the two to allow data use to be auditable and acceptable practice
+  to be enforcable. In this post we discuss this concept of a data trust,
+  explore what benefits they could bring and how they could be achieved.
 ---
+
+<img src="/img/system-lock.jpg">
 
 Society demands a certain amount of transparency and [auditability over
 financial matters](https://www.gov.uk/guidance/audit-accounting-and-reporting-guidance-for-uk-companies#company-reporting).
@@ -21,23 +30,33 @@ institutions are being asked to meet similar levels of accountability over
 how they put their data assets to work.
 
 European societies took the first step in this direction
-with the broad reaching and flexible [GDPR legislation](https://ec.europa.eu/commission/priorities/justice-and-fundamental-rights/data-protection/2018-reform-eu-data-protection-rules_en) that has
-overhauled most of the existing [data protection law dating from the late 20th century](https://www.legislation.gov.uk/ukpga/1998/29/contents).
-It considers real, currently relevant
-scenarios and makes an effort to anticipate the implications of
-widespread use of AI and other kinds of [automated decision making](https://gdpr-info.eu/art-4-gdpr/)
-in the future.
+with the broad reaching and flexible [GDPR legislation](https://ec.europa.eu/commission/priorities/justice-and-fundamental-rights/data-protection/2018-reform-eu-data-protection-rules_en)
+that has overhauled most of the existing
+[data protection law dating from the late 20th century](https://www.legislation.gov.uk/ukpga/1998/29/contents).
+It considers real, currently relevant scenarios and makes an effort to
+anticipate the implications of widespread use of AI and other kinds of
+[automated decision making](https://gdpr-info.eu/art-4-gdpr/) in the future.
 
 Along with the [Open Data Institute](https://theodi.org/), we believe
 that other legal and legislative changes are necessary in order to
 support a fully accountable digital future. In their [work on
 data trusts](https://theodi.org/article/defining-a-data-trust/),
 the ODI outline a legal structure that enables data assets to be
-held in trust, much like financial assets can be today. Along with
-organisations such as [DeepMind](https://deepmind.com), we believe that there
-must be a technical angle to the protection [so that organisations that
-store and process data can be publicly audited](https://deepmind.com/blog/trust-confidence-verifiable-data-audit/)
-and are able to prove their good standing.
+held in trust. A data trust defines what behaviours using that data
+are acceptable, much like trusts of financial assets today.
+
+However, legal structures are only useful when they can be enforced.
+Without enforcement there is no deterrent to improper behaviour.
+Along with organisations such as [DeepMind](https://deepmind.com),
+we believe that for something as complex as storing and processing data (especially personal data) there must also be a
+[technical angle to the auditing](https://deepmind.com/blog/trust-confidence-verifiable-data-audit/)
+so that organisations who do right can prove their good standing and
+those that do not can have a legal consequence encofrced against them.
+
+It's worth remembering that technical trust is also insufficient by itself
+– without any governance layer, breaches of the technical trust have
+little consequence. It's when social and technical trust are brought together
+that protection over the asset in trust is able to be adequately guaranteed.
 
 There are many ways of linking social trust with technical trust so that
 effective data audit can take place. Techniques such as those pioneered
@@ -60,7 +79,7 @@ In a data trust, the trust's charter could require that the trustees (those
 who hold the data) store it in a verifiable structure that records all of
 the accesses and changes that are made to the data. For open data sets, this extra
 transparency allows the trustors (those who own the data) and the general
-public to be sure that no data impropriety is occuring.
+public to have more confidence that no data impropriety is occuring.
 
 If an organisation holds very sensitive data it can instead publish
 secure metadata that opaquely describes the state of their database,
@@ -102,3 +121,10 @@ independent auditability in our work on the UK government's
 
 If you'd like to talk more about data trusts and marrying social and
 technical trust, please [get in touch with us](mailto:hello@register-dynamics.co.uk).
+
+*Thank you to [Peter Wells](https://theodi.org/person/peter-wells/),
+[Ade Adewunmi](https://twitter.com/Adewunmi), and
+[Kate Roselli](https://www.katertalks.com/)
+for their helpful comments and feedback.*
+
+*Picture: [Yuri Samoilov](https://www.flickr.com/photos/yusamoilov/), CC-BY 3.0.*
