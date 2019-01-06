@@ -52,7 +52,7 @@ The owner of the list will publish the root hash – it’s small and doesn’t 
 }
 ```
 
-For the technical people, this is the JSON that’s contained in a QR code. The `entry` contains the actual data – some metadata and then in curly braces some more JSON. This entry is what gets hashed. There is also some more metadata: the `audit` key contains the hashes you need to walk up the tree, and the `index` and `size` numbers tell you what entry in the tree you’re starting from. You can read more about the algorithm in [RFC 6962](https://tools.ietf.org/html/rfc6962).
+For the technical people, this is the JSON that’s contained in a QR code. The `entry` contains the actual data – some metadata and then in curly braces some more JSON. This entry is what gets hashed. There is also some more metadata: the `audit` key contains the hashes you need to walk up the tree, and the `index` and `size` numbers tell you what entry in the tree you’re starting from. You can read more about the algorithm in [RFC 6962](https://tools.ietf.org/html/rfc6962) and find the example code [on GitHub](https://github.com/register-dynamics/open-permits-app).
 
 <img src="/img/Open Permits slide 9.png">
 
