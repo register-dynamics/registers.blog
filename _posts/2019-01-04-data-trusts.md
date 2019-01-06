@@ -51,7 +51,7 @@ Along with organisations such as [DeepMind](https://deepmind.com),
 we believe that for something as complex as storing and processing data (especially personal data) there must also be a
 [technical angle to the auditing](https://deepmind.com/blog/trust-confidence-verifiable-data-audit/)
 so that organisations who do right can prove their good standing and
-those that do not can have a legal consequence encofrced against them.
+those that do not can have a legal consequence enforced against them.
 
 It's worth remembering that technical trust is also insufficient by itself
 – without any governance layer, breaches of the technical trust have
