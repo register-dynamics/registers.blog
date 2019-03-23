@@ -1,0 +1,21 @@
+---
+layout: default
+---
+<h1>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</h1>
+{{ content }}
+<section>
+{% for post in site.posts %}
+  {% assign mod = forloop.index | modulo: 2 %}
+  {% if mod == 1 %}
+    {% include post.html %}
+  {% endif %}
+{% endfor %}
+</section>
+<section>
+{% for post in site.posts %}
+  {% assign mod = forloop.index | modulo: 2 %}
+  {% if mod == 0 %}
+    {% include post.html %}
+  {% endif %}
+{% endfor %}
+</section>

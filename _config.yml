@@ -21,7 +21,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   discuss the challenges of building dependable open lists of trusted
   data and the powerful Registers technology that makes it possible.
 baseurl: "/" # the subpath of your site, e.g. /blog
-url: "https://registers.blog/" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://registers.blog" # the base hostname & protocol for your site, e.g. http://example.com
 lang: en_GB
 
 twitter_username: regdyn
@@ -41,9 +41,10 @@ data:
 
 # Build settings
 markdown: kramdown
-theme: minima
+
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
 
 show_excerpts: true
 
@@ -52,7 +53,7 @@ defaults:
       path: ""
       type: posts
     values:
-      layout: tracked-post
+      layout: post
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
