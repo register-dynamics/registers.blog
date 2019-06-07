@@ -12,6 +12,10 @@ layout: default
   <time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: '%d %b %Y' }}</time>
   {{ content }}
 
+  <a href="https://twitter.com/intent/tweet?url={{ page.url | prepend: site.url | url_encode }}&via={{ site.twitter_username }}" target="_blank">
+    Share this post on Twitter
+  </a>
+
   {% if biog.content %}
   <div class="biog">
     <img src="{{ site.url }}/{{ biog.image }}"/>

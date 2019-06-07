@@ -24,8 +24,8 @@ baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://registers.blog" # the base hostname & protocol for your site, e.g. http://example.com
 lang: en_GB
 
-twitter_username: regdyn
-#github_username:  register-dynamics
+twitter_username: RegDyn
+github_username:  register-dynamics
 
 twitter:
   type: summary
