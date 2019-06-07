@@ -132,7 +132,25 @@ body article pre {
   overflow-x: auto;
 }
 
+body article .biog {
+  background-color: #eee;
+  margin-top: 2em;
+  padding: 2em;
+  padding-left: calc(2em + 64px + 1.5em);
+  position: relative;
+}
 
+body article .biog img {
+  max-width: 64px;
+  position: absolute;
+  border-radius: 50%;
+  left: 2em;
+}
+
+body article .biog span {
+  font-size: 120%;
+  font-weight: bold;
+}
 
 body main section div {
   clear: left;
@@ -184,6 +202,13 @@ body main section div img {
 body main>div {
   clear: left;
   padding: 80px 0;
+}
+
+body main > h2 + img {
+  /* Author biog image */
+  float: left;
+  max-height: 5em;
+  border-radius: 50%;
 }
 
 body footer {

@@ -38,6 +38,9 @@ data:
     Simon Worthington:
       twitter: 51M0NW
 
+collections:
+  authors:
+    output: true
 
 # Build settings
 markdown: kramdown
@@ -54,6 +57,11 @@ defaults:
       type: posts
     values:
       layout: post
+  - scope:
+      path: ""
+      type: authors
+    values:
+      layout: author
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

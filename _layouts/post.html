@@ -2,13 +2,21 @@
 layout: default
 ---
 <article>
-  {% for author in site.data.authors %}
-    {% if author[0] == page.author %}
-      {% assign twitter = author[1].twitter %}
+  {% for author in site.authors %}
+    {% if author.title == page.author %}
+      {% assign biog = author %}
     {% endif %}
   {% endfor %}
   <h1>{{ page.title }}</h1>
-  <a href="https://twitter.com/{{ twitter }}" itemprop="author">{{ page.author }}</a>
+  <a href="{{ biog.url | relative_url }}" itemprop="author">{{ page.author }}</a>
   <time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: '%d %b %Y' }}</time>
   {{ content }}
+
+  {% if biog.content %}
+  <div class="biog">
+    <img src="{{ site.url }}/{{ biog.image }}"/>
+    <span>{{ page.author }}</span>
+    {{ biog.content | markdownify }}
+  </div>
+  {% endif %}
 </article>
