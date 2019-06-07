@@ -132,6 +132,13 @@ body article pre {
   overflow-x: auto;
 }
 
+body article .license {
+  color: darkgray;
+  float: left;
+  font-style: italic;
+  font-size: 75%;
+}
+
 body article .biog {
   background-color: #eee;
   margin-top: 2em;

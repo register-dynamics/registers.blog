@@ -19,4 +19,10 @@ layout: default
     {{ biog.content | markdownify }}
   </div>
   {% endif %}
+
+  {% for license in page.licenses %}
+  <span class="license">
+    {{ license | markdownify }}
+  </span>
+  {% endfor %}
 </article>
