@@ -12,9 +12,11 @@ layout: default
   <time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: '%d %b %Y' }}</time>
   {{ content }}
 
-  <a href="https://twitter.com/intent/tweet?url={{ page.url | prepend: site.url | url_encode }}&via={{ site.twitter_username }}" target="_blank">
-    Share this post on Twitter
-  </a>
+  <div class="sharezone">
+    Share this post:
+    <a href="https://twitter.com/intent/tweet?url={{ page.url | prepend: site.url | url_encode }}&via={{ site.twitter_username }}" target="_blank">Twitter</a>
+    <a href="https://facebook.com/sharer/sharer.php?u={{ page.url | prepend: site.url | url_encode }}" target="_blank">Facebook</a>
+  </div>
 
   {% if biog.content %}
   <div class="biog">
