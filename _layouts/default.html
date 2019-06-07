@@ -19,18 +19,18 @@
   <header>
     <a href="https://registers.app/">
       {% include logo.svg %}
-      <span>Registers</span>
+      <span>Registers.app</span>
     </a>
     <nav>
-      <a href="{{ site.baseurl }}">Blog</a>
       <a href="https://registers.app/#signup">Sign Up</a>
       <a href="mailto:hello@register-dynamics.co.uk">Contact Us</a>
+      <a href="{{ site.baseurl }}">Blog</a>
     </nav>
   </header>
   <main>
     {{ content }}
   </main>
-  <footer>Copyright Register Dynamics 2018</footer>
+  <footer>Copyright Register Dynamics {{ 'now' | date: '%Y' }}</footer>
   {% include tracking.html %}
 </body>
 

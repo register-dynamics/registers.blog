@@ -5,17 +5,6 @@ layout: default
 {{ content }}
 <section>
 {% for post in site.posts %}
-  {% assign mod = forloop.index | modulo: 2 %}
-  {% if mod == 1 %}
-    {% include post.html %}
-  {% endif %}
-{% endfor %}
-</section>
-<section>
-{% for post in site.posts %}
-  {% assign mod = forloop.index | modulo: 2 %}
-  {% if mod == 0 %}
-    {% include post.html %}
-  {% endif %}
+  {% include post.html %}
 {% endfor %}
 </section>

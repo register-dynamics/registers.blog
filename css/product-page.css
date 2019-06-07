@@ -113,10 +113,10 @@ body button, body a.button {
 }
 
 body main section {
-  max-width: calc(50% - 40px);
-  box-sizing: border-box;
-  padding: 0em 65px;
-  float: left;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 40px;
+  grid-row-gap: 40px;
 }
 
 body article {
@@ -132,16 +132,7 @@ body article pre {
   overflow-x: auto;
 }
 
-body main section:first-of-type {
-  border-right: 2px solid rgb(200, 250, 100);
-  margin-right: 0;
-  padding-left: 0;
-}
 
-body main section:last-of-type {
-  margin-left: 0;
-  padding-right: 0;
-}
 
 body main section div {
   clear: left;
