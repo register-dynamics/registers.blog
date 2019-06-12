@@ -57,4 +57,4 @@ A Register offers the perfect separation of concerns – owners can focus on aut
 
 [Registers.app](https://registers.app) is a friendly, self-service solution that allows data owners in organisations of all sizes to manage their data as a Register just like the spreadsheets they know and love. Organisations can provide data to others that need it whilst ensuring best practice and information assurance policies are followed. Users can consume it in the way they need to build their apps and services.
 
-We’ll be talking more about Registers in the coming weeks – including what they are and how to use them. Watch this space or (get in touch)[mailto:hello@register-dynamics.co.uk] to hear more about how to solve these conundrums!
+We’ll be talking more about Registers in the coming weeks – including what they are and how to use them. Watch this space or [get in touch](mailto:hello@register-dynamics.co.uk) to hear more about how to solve these conundrums!
