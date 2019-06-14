@@ -264,6 +264,10 @@ body article [href^="https://facebook.com/sharer"] {
   background-image: url(/img/Facebook_Logo.png);
 }
 
+body article [href^="https://www.linkedin.com/shareArticle"] {
+  background-image: url(/img/LinkedIn_Logo.svg);
+}
+
 body article .sharezone + * {
   clear: right;
 }
