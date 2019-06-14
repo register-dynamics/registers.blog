@@ -39,6 +39,9 @@ data:
       twitter: 51M0NW
 
 collections:
+  posts:
+    output: true
+    permalink: /:title
   authors:
     output: true
 
