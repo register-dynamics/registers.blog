@@ -256,7 +256,7 @@ body article .sharezone a:last-of-type {
   margin-left: 15px;
 }
 
-body article [href^="https://twitter.com/intent/tweet"] {
+body article [href^="https://www.twitter.com/intent/tweet"] {
   background-image: url(/img/Twitter_Logo.svg);
 }
 
@@ -264,7 +264,7 @@ body article [href^="https://facebook.com/sharer"] {
   background-image: url(/img/Facebook_Logo.png);
 }
 
-body article [href^="https://www.linkedin.com/shareArticle"] {
+body article [href^="https://linkedin.com/shareArticle"] {
   background-image: url(/img/LinkedIn_Logo.svg);
 }
 
