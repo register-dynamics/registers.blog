@@ -2,11 +2,13 @@
 layout: default
 ---
 <h1>{{ site.title }}</h1>
-<h2>{{ page.title }}</h2>
+<div class="biog">
 {% if page.image %}
   <img src="{{ site.url }}/{{ page.image }}"/>
 {% endif %}
+<h2>{{ page.title }}</h2>
 {{ content }}
+</div>
 <section>
 {% assign posts = site.posts | where: "author", page.title %}
 {% for post in posts %}

@@ -7,7 +7,7 @@ body main section {
 
 body article {
   max-width: 720px;
-  margin: 0 auto;
+  margin: 0 auto 40px;
 }
 
 body article * {
@@ -18,7 +18,7 @@ body article pre {
   overflow-x: auto;
 }
 
-body article .biog {
+body .biog {
   background-color: #eee;
   margin-top: 2em;
   padding: 2em;
@@ -26,19 +26,20 @@ body article .biog {
   position: relative;
 }
 
-body article .biog img {
+body .biog img {
   max-width: 64px;
   position: absolute;
   border-radius: 50%;
   left: 2em;
 }
 
-body article .biog span {
+body .biog span, body .biog h2 {
   font-size: 120%;
   font-weight: bold;
+  margin: 0;
 }
 
-body article .license {
+body .license {
   color: darkgray;
   float: left;
   font-style: italic;
