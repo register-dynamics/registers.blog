@@ -129,6 +129,23 @@ body article .sharezone + * {
   clear: right;
 }
 
+@media screen and (max-width: 375px) {
+  body article .sharezone a {
+    float: left;
+    margin-left: 0;
+    margin-right: 10px;
+  }
+
+  body article .sharezone a:last-of-type {
+    margin-left: 0;
+  }
+
+  body article .sharezone span {
+    width: 100%;
+    display: inline-block;
+  }
+}
+
 @media screen and (max-width: 960px) {
  body header nav a {
     font-size: 16px;
