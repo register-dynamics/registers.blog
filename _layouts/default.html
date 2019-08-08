@@ -12,6 +12,7 @@
   <link rel="apple-touch-icon" type="image/png" sizes="152x152" href="{{ site.baseurl }}img/favicon.152x152.png" />
   <link rel="stylesheet" href="{{ site.baseurl }}css/fonts/Chivo.css" type="text/css" />
   <link rel="stylesheet" href="{{ site.baseurl }}css/product-page.css" type="text/css" />
+  <link rel="stylesheet" href="{{ site.baseurl }}css/blog.css" type="text/css" />
   <link rel="stylesheet" href="{{ site.baseurl }}css/logo.css" type="text/css" />
   {% feed_meta %}
 </head>
@@ -22,9 +23,10 @@
       {% include logo.svg %}
       <span>Registers.app</span>
     </a>
-    <nav>
+    <nav id="menu">
+      <a href="#menu">Menu</a>
       <a href="https://registers.app/#signup">Sign Up</a>
-      <a href="{{ site.baseurl }}">Blog</a>
+      <a href="{{ site.baseurl }}" class="selected">Blog</a>
       <a href="https://registers.app/pricing">Pricing</a>
       <a href="https://registers.app/enterprise">Enterprise</a>
       <a href="https://registers.app/features">Why Registers?</a>
@@ -33,7 +35,7 @@
   <main>
     {{ content }}
   </main>
-  <footer>Copyright Register Dynamics {{ 'now' | date: '%Y' }}</footer>
+  <footer>{% include product-info.html %}</footer>
   {% include tracking.html %}
 </body>
 
