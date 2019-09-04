@@ -120,6 +120,42 @@ So, we decided to implement our own spreadsheet interface for the web. Without a
       <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/old/CWY/NDgwMg==/data/start-date" value="1996-04-01"></td>
       <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/old/CWY/NDgwMg==/data/end-date" value=""></td>
     </tr>
+    <tr>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/0/data/principal-local-authority" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/0/data/name" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/0/data/name-cy" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/0/data/official-name" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/0/data/official-name-cy" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/0/data/start-date" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/0/data/end-date" value="" /></td>
+    </tr>
+    <tr>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/1/data/principal-local-authority" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/1/data/name" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/1/data/name-cy" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/1/data/official-name" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/1/data/official-name-cy" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/1/data/start-date" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/1/data/end-date" value="" /></td>
+    </tr>
+    <tr>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/2/data/principal-local-authority" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/2/data/name" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/2/data/name-cy" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/2/data/official-name" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/2/data/official-name-cy" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/2/data/start-date" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/2/data/end-date" value="" /></td>
+    </tr>
+    <tr>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/3/data/principal-local-authority" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/3/data/name" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/3/data/name-cy" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/3/data/official-name" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/3/data/official-name-cy" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/3/data/start-date" value="" /></td>
+      <td><input type="text" name="welsh-government/principal-local-authority/WnnE4SXksjo-jskf-2gzFm61IhAUlFXPHrpr6brjs60=/new/3/data/end-date" value="" /></td>
+    </tr>
   </tbody>
 </table>
 
