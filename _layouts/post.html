@@ -8,7 +8,7 @@ layout: default
     {% endif %}
   {% endfor %}
   <h1>{{ page.title }}</h1>
-  <a href="{{ biog.url | relative_url }}" itemprop="author">{{ page.author }}</a>
+  <a {% if biog %}href="{{ biog.url | relative_url }}" {% endif %}itemprop="author">{{ page.author }}</a>
   <time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: '%d %b %Y' }}</time>
   {{ content }}
 
