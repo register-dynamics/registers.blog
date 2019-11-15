@@ -1,3 +1,34 @@
+(function(){// https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
+// Code is in the public domain (https://creativecommons.org/publicdomain/zero/1.0/)
+if (!Element.prototype.closest) {
+  Element.prototype.closest = function(s) {
+    var el = this;
+
+    do {
+      if (el.matches(s)) return el;
+      el = el.parentElement || el.parentNode;
+    } while (el !== null && el.nodeType === 1);
+    return null;
+  };
+}
+})();
+(function(){// https://developer.mozilla.org/en-US/docs/Web/API/Element/matches#Polyfill
+// Code is in the public domain (https://creativecommons.org/publicdomain/zero/1.0/)
+if (!Element.prototype.matches) {
+  Element.prototype.matches =
+      Element.prototype.matchesSelector ||
+      Element.prototype.mozMatchesSelector ||
+      Element.prototype.msMatchesSelector ||
+      Element.prototype.oMatchesSelector ||
+      Element.prototype.webkitMatchesSelector ||
+      function(s) {
+        var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+            i = matches.length;
+        while (--i >= 0 && matches.item(i) !== this) {}
+        return i > -1;
+      };
+}
+})();
 (function(){/* Generated from https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values using:
 code = ["window.KeyGroups = {"];
 for (var header of document.querySelectorAll("article h2")) {
@@ -402,6 +433,13 @@ window.KeyGroups = {
     // From waffle.scm
     const InputElementsSelector = "input, button, select, textarea, xmlarea, isindex";
 
+    const SingleClickFocusElementsSelector = [
+      "select",
+      "button",
+      "input[type='checkbox']",
+      "input[type='file']"
+    ].join(", ");
+
     // https://stackoverflow.com/a/30753870/3729369
     const FocusableElementsXPaths = [
       "a[@href]",
@@ -463,6 +501,12 @@ window.KeyGroups = {
       get above() { return CellRef.fromCoords(this.table, this.row - 1, this.col + 0); }
       get below() { return CellRef.fromCoords(this.table, this.row + 1, this.col + 0); }
 
+      equals(cell) {
+        return this.table == cell.table &&
+          this.row == cell.row &&
+          this.col == cell.col;
+      }
+
       static fromCoords(table, row, col) {
         if (row < 0 || table.rows.length <= row) {
           console.error("tried to get cell at row " + row + " but rows go from 0 to " + (table.rows.length - 1));
@@ -476,14 +520,100 @@ window.KeyGroups = {
       }
     }
 
+    let RowSortOrder    = (a, b) => (a.row == b.row) ? a.col - b.col : a.row - b.row;
+    let ColumnSortOrder = (a, b) => (a.col == b.col) ? a.row - b.row : a.col - b.col;
+
+    // If an index lies outside a range, restart it,
+    // else move it in the direction specified
+    let loopIndex = function(index, min, max, step) {
+      var index = index + step;
+      if (index < min)      { return max; }
+      else if (index > max) { return min; }
+      else                  { return index; }
+    }
+
+    // Focus Cursors
+    // These represent the various ways in which we can move the focus cursor
+    // and encode returning a new selection with the correct focus
+
+    // When we have only selected a single cell,
+    // the cursor moves to the cells around it
+    let SingleCellFocusCursor = class {
+      constructor(selection) {
+        this.selection = selection;
+      }
+
+      nextFocusByRow()    { return new TableSelection(selection.focus.right || selection.focus); }
+      nextFocusByColumn() { return new TableSelection(selection.focus.below || selection.focus); }
+      prevFocusByRow()    { return new TableSelection(selection.focus.left  || selection.focus);  }
+      prevFocusByColumn() { return new TableSelection(selection.focus.above || selection.focus); }
+    }
+
+    // When we have made a selection,
+    // the cursor moves within the selection
+    let SingleSelectionFocusCursor = class {
+      constructor(selection) {
+        this.selection = selection;
+      }
+
+      // Given an array of cells and the current focus,
+      // returns the cell that should be the next focus cell
+      nextFocusCell(method, step) {
+        var cells = method(this.selection);
+        var index = cells.findIndex(this.selection.focus.equals, this.selection.focus);
+        var index = loopIndex(index, 0, cells.length - 1, step);
+        return cells[index];
+      }
+
+      withFocus(tableCell)    { return new TableSelection(this.selection.startCell, this.selection.endCell, tableCell); }
+      nextFocusByRow()    { return this.withFocus(this.nextFocusCell(s => s.cellsByRow,    +1)); }
+      nextFocusByColumn() { return this.withFocus(this.nextFocusCell(s => s.cellsByColumn, +1)); }
+      prevFocusByRow()    { return this.withFocus(this.nextFocusCell(s => s.cellsByRow,    -1)); }
+      prevFocusByColumn() { return this.withFocus(this.nextFocusCell(s => s.cellsByColumn, -1)); }
+    }
+
+    // When we have made multiple selections (using Ctrl),
+    // the cursor moves within a selection and then to the next selection
+    let MultipleSelectionFocusCursor = class {
+      constructor(selection) {
+        this.selections = selection.selections;
+        this.focusedSelection = selection.focusedSelection;
+        this.focusedIndex = this.selections.indexOf(this.focusedSelection);
+      }
+
+      nextFocusedIndex(step) {
+        return loopIndex(this.focusedIndex, 0, this.selections.length - 1, step);
+      }
+
+      withNextFocus(method, step, start, end) {
+        var newSelections = Array.from(this.selections);
+        var newSelection = null;
+        if (this.focusedSelection.focus.equals(end(this.focusedSelection))) {
+          newSelection = newSelections[this.nextFocusedIndex(step)];
+          var cursor = new SingleSelectionFocusCursor(newSelection);
+          newSelection = cursor.withFocus(start(newSelection));
+          newSelections[this.nextFocusedIndex(step)] = newSelection;
+        } else {
+          newSelection = method(this.focusedSelection.focusCursor);
+          newSelections[this.focusedIndex] = newSelection;
+        }
+        return new MultipleRangeSelection(newSelections, newSelection);
+      }
+
+      nextFocusByRow()    { return this.withNextFocus(s => s.nextFocusByRow(),    +1, s => s.firstCell, s => s.lastCell); }
+      nextFocusByColumn() { return this.withNextFocus(s => s.nextFocusByColumn(), +1, s => s.firstCell, s => s.lastCell); }
+      prevFocusByRow()    { return this.withNextFocus(s => s.prevFocusByRow(),    -1, s => s.lastCell, s => s.firstCell); }
+      prevFocusByColumn() { return this.withNextFocus(s => s.prevFocusByColumn(), -1, s => s.lastCell, s => s.firstCell); }
+    }
+
     let TableSelection = class {
-      constructor(startCell, endCell) {
+      constructor(startCell, endCell, focus) {
         this.startCell = startCell;
         this.endCell = (endCell === undefined) ? startCell : endCell;
+        this.focus = (focus === undefined || !this.intersectsCell(focus)) ? startCell : focus;
       }
 
       get table()    { return this.endCell.table; }
-      get focus()    { return this.startCell; }
       get rowStart() { return Math.min(this.startCell.row, this.endCell.row); }
       get rowEnd()   { return Math.max(this.startCell.row, this.endCell.row); }
       get colStart() { return Math.min(this.startCell.col, this.endCell.col); }
@@ -500,10 +630,14 @@ window.KeyGroups = {
       }
 
       get cells() { return this.getRangeOfCells(this.rowStart, this.rowEnd, this.colStart, this.colEnd); }
+      get cellsByRow() { return this.cells.sort(RowSortOrder); }
+      get cellsByColumn() { return this.cells.sort(ColumnSortOrder); }
       get topCells() { return this.getRangeOfCells(this.rowStart, this.rowStart, this.colStart, this.colEnd); }
       get bottomCells() { return this.getRangeOfCells(this.rowEnd, this.rowEnd, this.colStart, this.colEnd); }
       get leftCells() { return this.getRangeOfCells(this.rowStart, this.rowEnd, this.colStart, this.colStart); }
       get rightCells() { return this.getRangeOfCells(this.rowStart, this.rowEnd, this.colEnd, this.colEnd); }
+      get firstCell() { return this.cells[0]; }
+      get lastCell() { return this.cells[this.cells.length - 1]; }
 
       get rows() {
         var rows = [];
@@ -516,10 +650,20 @@ window.KeyGroups = {
 
       intersectsCell(tableCell) {
         return this.table == tableCell.table &&
-          this.rowStart >= tableCell.row &&
-          this.rowEnd   <= tableCell.row &&
-          this.colStart >= tableCell.col &&
-          this.colEnd   <= tableCell.col;
+          this.rowStart <= tableCell.row &&
+          this.rowEnd   >= tableCell.row &&
+          this.colStart <= tableCell.col &&
+          this.colEnd   >= tableCell.col;
+      }
+
+      includingSelection(selection) {
+        return new MultipleRangeSelection([this, selection]);
+      }
+
+      get focusCursor() {
+        return this.firstCell.equals(this.lastCell) ?
+          new SingleCellFocusCursor(this) :
+          new SingleSelectionFocusCursor(this);
       }
 
       static fromElement(element) {
@@ -535,6 +679,39 @@ window.KeyGroups = {
         } else {
           return NilSelection;
         }
+      }
+    };
+
+    let MultipleRangeSelection = class {
+      constructor(selections, focusedSelection) {
+        this.selections = Array.from(selections);
+        this.focusedSelection = (focusedSelection === undefined) ? this.selections[0] : focusedSelection;
+      }
+
+      get table()    { return this.focusedSelection.table; }
+      get focus()    { return this.focusedSelection.focus; }
+      get rowStart() { return Math.min(...this.selections.map(s => s.rowStart)); }
+      get rowEnd()   { return Math.max(...this.selections.map(s => s.rowEnd)); }
+      get colStart() { return Math.min(...this.selections.map(s => s.colStart)); }
+      get colEnd()   { return Math.max(...this.selections.map(s => s.colEnd)); }
+
+      get cells() { return this.selections.map(s => s.cells).reduce((acc, cur) => acc.concat(cur), []); }
+      get cellsByRow() { return this.selections.map(s => s.cellsByRow).reduce((acc, cur) => acc.concat(cur), []); }
+      get cellsByColumn() { return this.selections.map(s => s.cellsByColumn).reduce((acc, cur) => acc.concat(cur), []); }
+      get topCells() { return this.selections.map(s => s.topCells).reduce((acc, cur) => acc.concat(cur), []); }
+      get bottomCells() { return this.selections.map(s => s.bottomCells).reduce((acc, cur) => acc.concat(cur), []); }
+      get leftCells() { return this.selections.map(s => s.leftCells).reduce((acc, cur) => acc.concat(cur), []); }
+      get rightCells() { return this.selections.map(s => s.rightCells).reduce((acc, cur) => acc.concat(cur), []); }
+      get rows() { return this.selections.map(s => s.rows).reduce((acc, cur) => acc.concat(cur), []); }
+
+      intersectsCell(tableCell) { return this.selections.some(s => s.intersectsCell(tableCell)); }
+
+      includingSelection(selection) {
+        return new MultipleRangeSelection(this.selections.concat(selection));
+      }
+
+      get focusCursor() {
+        return new MultipleSelectionFocusCursor(this);
       }
     };
 
@@ -618,7 +795,7 @@ window.KeyGroups = {
       // Clears the values of all the cells in the current selection
       var clearSelectedCells = function() {
         var inputs = Array.from(scanInputElements());
-        inputs.forEach(input => changeValue(input, "")); // TODO: types may require different defaults
+        inputs.forEach(input => setEmptyValue(input, "")); // TODO: types may require different defaults
       }
 
       // Take the last set of values from the passed stack
@@ -646,6 +823,12 @@ window.KeyGroups = {
         event.preventDefault();
       }
 
+      var preventInputFocus = function(event) {
+        if (!event.target.matches(SingleClickFocusElementsSelector)) {
+          event.preventDefault();
+        }
+      }
+
       // Remove focus when we make a table selection.
       var removeFocus = function(focusEvent) {
         var currentFocus = document.querySelector(":focus");
@@ -656,7 +839,7 @@ window.KeyGroups = {
       // If the cell is double clicked, focus the first element
       var enterCell = function(event) {
         var target = event.target;
-        var input = (target.nodeName === "TD") ? cell.querySelector("input") : target;
+        var input = (target.nodeName === "TD") ? target.querySelector(InputElementsSelector) : target;
         var cell = new CellRef(target);
         rememberCurrentValue(cell);
         cellEditMode(cell, input);
@@ -673,22 +856,35 @@ window.KeyGroups = {
       // current values of the inputs. If a user changes the input
       // we add an entry to the undo stack.
       var startRemembering = function(input) {
+        var haveEdited = false;
         var previousValue = {name: input.name, value: input.value};
 
         var addToUndoStack = function() {
           var newValue = {name: input.name, value: input.value};
           undoStack.push({old: [previousValue], new: [newValue]});
           redoStack = [];
+          haveEdited = true;
           previousValue = newValue;
+        }
+
+        var watchForEscape = function(keyEvent) {
+          if (keyEvent.key == "Escape") {
+            // If we pressed Escape and haved edited the cell,
+            // then we want to revert to the original value, so undo.
+            cellSelectMode(selection.focus);
+            if (haveEdited) { undoLast(); }
+          }
         }
 
         var stopRemembering = function() {
           input.removeEventListener("change", addToUndoStack);
           input.removeEventListener("blur", stopRemembering);
+          input.removeEventListener("keydown", watchForEscape);
         }
 
         input.addEventListener("change", addToUndoStack);
         input.addEventListener("blur", stopRemembering);
+        input.addEventListener("keydown", watchForEscape);
       }
 
       var rememberCurrentValue = function(cell) {
@@ -707,8 +903,8 @@ window.KeyGroups = {
       // This would also prevent the drag selection from working
       // because the caret ends up in the input and mouseevents
       // end up with their target as the input, not the cell
-      InputSelectMode.addEvent("mousedown", preventDefault);
-      InputSelectMode.addEvent("click", preventDefault);
+      InputSelectMode.addEvent("mousedown", preventInputFocus);
+      InputSelectMode.addEvent("click", preventInputFocus);
 
       // If we click on another cell when one cell is in edit mode,
       // we should remove focus from that cell.
@@ -747,6 +943,23 @@ window.KeyGroups = {
         DocumentSelectMode.enter(document);
       }
 
+      // Log which keys are *currently* pressed for use with mouse events
+      var depressedKeys = new Set();
+      var updateKey = function(flag, name) {
+        if (flag) { depressedKeys.add(name); }
+        else      { depressedKeys.delete(name); }
+      }
+
+      var updateFromKeyEvent = function(keyEvent) {
+        updateKey(keyEvent.type == "keydown", keyEvent.key);
+        updateKey(keyEvent.shiftKey, "Shift");
+        updateKey(keyEvent.ctrlKey, "Control");
+        updateKey(keyEvent.altKey, "Alt");
+      }
+
+      DocumentSelectMode.addEvent("keydown", updateFromKeyEvent);
+      DocumentSelectMode.addEvent("keyup", updateFromKeyEvent);
+
       var startDrag = function(startEvent) {
         // Triggered when the user has finished dragging a selection
         const stopDrag = function(stopEvent) {
@@ -754,18 +967,36 @@ window.KeyGroups = {
           table.removeEventListener("mouseover", handleEntry);
         }
 
+        // Store the selection before we started dragging, and the one we are dragging
+        var initialSelection  = selection;
+        var draggingSelection = TableSelection.fromElement(startEvent.target);
+
+        // If we have control-dragged, add the new selection to the existing selection
+        // Otherwise, replace the existing selection with the new one
+        const mergeSelection = function(newSelection) {
+          if (depressedKeys.has("Control")) {
+            return initialSelection.includingSelection(newSelection);
+          } else {
+            return newSelection;
+          }
+        }
+
         // Triggered when the user enters a new cell
         // To take into account that the user might be selecting rows,
         // we make a range from the new cell and use the end cell of that range
         const handleEntry = function(entryEvent) {
-          var newRange = TableSelection.fromElement(entryEvent.target);
-          var startCell = (selection == NilSelection) ? newCell : selection.startCell;
-          changeSelection(startCell, newRange.endCell);
+          var eventRange = TableSelection.fromElement(entryEvent.target);
+          draggingSelection = new TableSelection(draggingSelection.startCell, eventRange.endCell);
+          applySelection(mergeSelection(draggingSelection));
         }
 
-        applySelection(TableSelection.fromElement(startEvent.target));
-        table.addEventListener("mouseup", stopDrag);
-        table.addEventListener("mouseover", handleEntry);
+        // Don't capture the drag if we're clicking on a <select> box or friends
+        if (!startEvent.target.matches(SingleClickFocusElementsSelector)) {
+          applySelection(mergeSelection(draggingSelection));
+          table.addEventListener("mouseup", stopDrag);
+          table.addEventListener("mouseover", handleEntry);
+          startEvent.preventDefault();
+        }
       }
 
       var selectAll = function() {
@@ -782,6 +1013,10 @@ window.KeyGroups = {
         .reduce((acc, cur) => acc.concat(cur), [])
         .filter(k => k != "Backspace");
 
+      var valueKeyPressed = function(keyEvent) {
+        return (!ControlKeyCodes.includes(keyEvent.key) && !keyEvent.ctrlKey && !keyEvent.metaKey);
+      }
+
       var selectModeKeyboardShortcuts = function(keyEvent) {
         if (keyEvent.ctrlKey && keyEvent.key.toLowerCase() == "z") { undoLast(); }
         else if (keyEvent.ctrlKey && keyEvent.key.toLowerCase() == "y") { redoLast(); }
@@ -795,35 +1030,53 @@ window.KeyGroups = {
         else if (keyEvent.shiftKey && keyEvent.key == "ArrowRight") { changeSelection(selection.focus, selection.endCell.right); }
         else if (keyEvent.shiftKey && keyEvent.key == "ArrowDown")  { changeSelection(selection.focus, selection.endCell.below); }
         else if (keyEvent.shiftKey && keyEvent.key == "ArrowUp")    { changeSelection(selection.focus, selection.endCell.above); }
-        else if (keyEvent.key == "Enter") { changeSelection(selection.focus.below); keyEvent.preventDefault(); }
-        else if (keyEvent.key == "Tab")   { changeSelection(selection.focus.right); keyEvent.preventDefault(); }
-        else if (!ControlKeyCodes.includes(keyEvent.key) && !keyEvent.ctrlKey && !keyEvent.metaKey) {
+        else if (!keyEvent.shiftKey && keyEvent.key == "Enter") { applySelection(selection.focusCursor.nextFocusByColumn()); keyEvent.preventDefault(); }
+        else if (!keyEvent.shiftKey && keyEvent.key == "Tab")   { applySelection(selection.focusCursor.nextFocusByRow()); keyEvent.preventDefault(); }
+        else if (keyEvent.shiftKey && keyEvent.key == "Enter") { applySelection(selection.focusCursor.prevFocusByColumn()); keyEvent.preventDefault(); }
+        else if (keyEvent.shiftKey && keyEvent.key == "Tab")   { applySelection(selection.focusCursor.prevFocusByRow()); keyEvent.preventDefault(); }
+        else if (valueKeyPressed(keyEvent)) {
           var input = selection.focus.node.querySelector(InputElementsSelector);
           var event = new KeyboardEvent(keyEvent.type, keyEvent);
           event.stopPropagation();
           changeSelection(selection.focus);
-          rememberCurrentValue(selection.focus);
-          input.value = "";
-          cellEditMode(selection.focus, input);
-          input.dispatchEvent(event);
+          if (input !== null) {
+            rememberCurrentValue(selection.focus);
+            input.value = "";
+            cellEditMode(selection.focus, input);
+            input.dispatchEvent(event);
+          }
         }
       };
 
       var editModeKeyboardShortcuts = function(keyEvent) {
         if (keyEvent.key == "Enter") {
           cellSelectMode(selection.focus);
-          changeSelection(selection.focus.below);
+          applySelection(selection.focusCursor.nextFocusByColumn());
         }
         if (keyEvent.key == "Tab") {
           cellSelectMode(selection.focus);
-          changeSelection(selection.focus.right);
+          applySelection(selection.focusCursor.nextFocusByRow());
         }
         if (keyEvent.key == "Escape") {
-          // Bringing the cell out of edit mode causes an entry
-          // to appear on the undo stack. If we pressed Escape,
-          // then we want to revert to the original value, so undo.
           cellSelectMode(selection.focus);
-          undoLast();
+        }
+        if (keyEvent.target.matches(SingleClickFocusElementsSelector) && !valueKeyPressed(keyEvent)) {
+          // We are operating on an element which doesn't have persistent focus
+          // I.e. there is no cursor to move around the input area and the element doesn't "look" focused
+          // So we handle any non-value key press as if the cell was in select mode
+          // This means arrow keys etc. will move the cell focus as expected
+          cellSelectMode(selection.focus);
+          keyEvent.preventDefault();
+          keyEvent.stopPropagation();
+          selectModeKeyboardShortcuts(keyEvent);
+
+          // Due to a bug in Firefox (https://stackoverflow.com/a/46974366/3729369)
+          // arrow key events are not prevented properly so we instead
+          // make the <select> disabled temporarily and restore it a frame later
+          if (keyEvent.target.tagName == "SELECT") {
+            keyEvent.target.disabled = true;
+            setTimeout(function() { keyEvent.target.disabled = false; });
+          }
         }
       }
 
@@ -896,17 +1149,24 @@ window.KeyGroups = {
       DocumentSelectMode.addEvent("paste", pasteSelection);
       TableSelectMode.addEvent("selectstart", preventDefault);
 
-      const NewRowInputSelector = "tbody *[name*='/new/']";
+      const DataRegion     = "data/";
+      const SchemaRegion   = "schema/";
+      const NewItemRegion  = "new-items/";
+      const NewFieldRegion = "new-fields/";
+
+      const NewItemSelector  = [DataRegion, NewItemRegion].join("");
+
+      const NewRowInputSelector = "*[name*='" + NewItemSelector + "']";
       const NumberOfNewRows = 4;
       var initialNewInputs = table.querySelectorAll(NewRowInputSelector);
       if (initialNewInputs.length > 0) {
-        var templateRow = initialNewInputs[0].closest('tr').cloneNode(true);
+        var templateRow = initialNewInputs[0].closest('tr');
         var createNewRows = function(event) {
           var newRows = new Set(Array.from(table.querySelectorAll(NewRowInputSelector)).map(x => x.closest('tr')));
           var blankNewRows = new Set();
           for (var row of newRows) {
             var inputs = Array.from(row.querySelectorAll(NewRowInputSelector));
-            if (inputs.every(i => i.value === i.defaultValue)) {
+            if (inputs.every(hasDefaultValue)) {
               blankNewRows.add(row);
             }
           }
@@ -915,12 +1175,14 @@ window.KeyGroups = {
             var newRowNumber = newRows.size;
             var newRow = templateRow.cloneNode(true);
             var namedElements = newRow.querySelectorAll('*[name]');
+            const indexReplace = new RegExp(NewItemSelector + "\\d+");
             for (var i = 0; i < namedElements.length; i++) {
-              namedElements[i].name = namedElements[i].name.replace("new/0", "new/" + newRowNumber);
-              namedElements[i].value = namedElements[i].defaultValue;
+              namedElements[i].name = namedElements[i].name.replace(indexReplace, NewItemSelector + newRowNumber);
+              setDefaultValue(namedElements[i]);
               InputAliveState.enter(namedElements[i]);
               InputSelectMode.enter(namedElements[i]);
             }
+            addRowClasses({target: newRow});
             table.querySelector("tbody").appendChild(newRow);
           }
         }
@@ -939,19 +1201,58 @@ window.KeyGroups = {
         return Array.from(columns.values());
       }
 
-      const NewColumnInputSelector = "thead *[name*='/new/']";
+      // Returns the default value of an input element
+      // This process differs for different types of elements
+      var hasDefaultValue = function(element) {
+        if (element.defaultValue !== undefined) {
+          return element.value == element.defaultValue;
+        } else if (element.options !== undefined && element.selectedOptions !== undefined) {
+          var optionsWithSelectedAttr = Array.from(element.options).filter(e => e.attributes["selected"] !== undefined);
+          if (optionsWithSelectedAttr.length == 0) {
+            // The select doesn't have any selected attributes, so the first item is default
+            return element.selectedIndex == 0;
+          } else {
+            // The select has selected elements, so the default is these
+            return optionsWithSelectedAttr.every(e => Array.from(element.selectedOptions).contains(e));
+          }
+        } else {
+          console.warning("Don't know how to test for default value for " + element);
+          return true;
+        }
+      }
+
+      var setDefaultValue = function(element) {
+        CellSelectedClasses.forEach(c => element.closest("th,td").classList.remove(c));
+        if (element.defaultValue !== undefined) {
+          element.value = element.defaultValue;
+        } else if (element.selectedIndex !== undefined) {
+          element.selectedIndex = 0;
+        } else {
+          console.warning("Don't know how to set default value on " + element);
+        }
+      }
+
+      var setEmptyValue = function(element) {
+        if (element.selectedIndex !== undefined) {
+          element.selectedIndex = 0;
+        } else {
+          changeValue(element, "");
+        }
+      }
+
+      const NewColumnInputSelector = "*[name*='" + NewFieldRegion + "']";
       const NumberOfNewColumns = 2;
       var initialNewInputs = table.querySelectorAll(NewColumnInputSelector);
       if (initialNewInputs.length > 0) {
-        var columns = groupByColumn("th", initialNewInputs);
-        var templateElements = columns[0].map(th => ({node: th.cloneNode(true), parent: th.parentElement}));
         var createNewColumns = function(event) {
-          var newColumns = groupByColumn("th", table.querySelectorAll(NewColumnInputSelector));
+          var columns = groupByColumn("th, td", table.querySelectorAll(NewColumnInputSelector));
+          var templateElements = columns[0].map(cell => ({node: cell, parent: cell.parentElement}));
+          var newColumns = groupByColumn("th, td", table.querySelectorAll(NewColumnInputSelector));
           var blankNewColumns = new Set();
           for (var column of newColumns.values()) {
             var allAreBlank = column.every(cell => {
               var inputs = Array.from(cell.querySelectorAll(NewColumnInputSelector));
-              return inputs.every(i => i.value === i.defaultValue);
+              return inputs.every(hasDefaultValue);
             });
             if (allAreBlank) {
               blankNewColumns.add(column);
@@ -963,9 +1264,10 @@ window.KeyGroups = {
             for (var templateColumn of templateElements) {
               var newColumn = templateColumn.node.cloneNode(true);
               var namedElements = newColumn.querySelectorAll('*[name]');
+              const indexReplace = new RegExp(NewFieldRegion + "\\d+");
               for (var i = 0; i < namedElements.length; i++) {
-                namedElements[i].name = namedElements[i].name.replace("new/0", "new/" + newColumnNumber);
-                namedElements[i].value = namedElements[i].defaultValue;
+                namedElements[i].name = namedElements[i].name.replace(indexReplace, NewFieldRegion + newColumnNumber);
+                setDefaultValue(namedElements[i]);
                 InputAliveState.enter(namedElements[i]);
                 InputSelectMode.enter(namedElements[i]);
               }
@@ -978,7 +1280,7 @@ window.KeyGroups = {
       }
 
       var addRowClasses = function(event) {
-        var row = event.target.closest('tr'); //FIXME: IE
+        var row = event.target.closest('tr');
         var siblingInputs = row.querySelectorAll("input");
         var rowEdited = false;
         var rowDeleted = (siblingInputs.length > 0);
@@ -986,7 +1288,7 @@ window.KeyGroups = {
         for (var j = 0; j < siblingInputs.length; j++) {
           rowEdited = rowEdited || (siblingInputs[j].value !== siblingInputs[j].defaultValue);
           rowDeleted = rowDeleted && (siblingInputs[j].value === ""); // TODO: types
-          rowAdded = rowAdded && (siblingInputs[j].name.indexOf("/new/") > 0);
+          rowAdded = rowAdded && (siblingInputs[j].name.indexOf(NewItemSelector) > 0);
         }
         row.classList.toggle("edited", rowEdited); //FIXME: IE 11
         row.classList.toggle("added", rowAdded);

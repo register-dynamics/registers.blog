@@ -13,24 +13,12 @@
   <link rel="stylesheet" href="{{ site.baseurl }}css/fonts/Chivo.css" type="text/css" />
   <link rel="stylesheet" href="{{ site.baseurl }}css/product-page.css" type="text/css" />
   <link rel="stylesheet" href="{{ site.baseurl }}css/blog.css" type="text/css" />
-  <link rel="stylesheet" href="{{ site.baseurl }}css/logo.css" type="text/css" />
   {% feed_meta %}
 </head>
 
 <body class="product-page">
   <header>
-    <a href="https://registers.app/">
-      {% include logo.svg %}
-      <span>Registers.app</span>
-    </a>
-    <nav id="menu">
-      <a href="#menu">Menu</a>
-      <a href="https://registers.app/#signup">Sign Up</a>
-      <a href="{{ site.baseurl }}" class="selected">Blog</a>
-      <a href="https://registers.app/pricing">Pricing</a>
-      <a href="https://registers.app/enterprise">Enterprise</a>
-      <a href="https://registers.app/features">Why Registers?</a>
-    </nav>
+    {% include menu.html %}
   </header>
   <main>
     {{ content }}
