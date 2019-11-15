@@ -72,9 +72,14 @@ body main section div h3 {
   margin-left: 125px;
 }
 
+body main section div h2 {
+  min-height: 2.4em;
+}
+
 body main section div img {
   max-width: 100%;
   margin-bottom: 1em;
+  border-radius: 20px;
 }
 
 body main>div {
