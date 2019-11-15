@@ -1,3 +1,5 @@
+---
+---
 body main section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -114,15 +116,15 @@ body article .sharezone a:last-of-type {
 }
 
 body article [href^="https://www.twitter.com/intent/tweet"] {
-  background-image: url(/img/Twitter_Logo.svg);
+  background-image: url("{{ site.baseurl }}img/Twitter_Logo.svg");
 }
 
 body article [href^="https://facebook.com/sharer"] {
-  background-image: url(/img/Facebook_Logo.png);
+  background-image: url("{{ site.baseurl }}img/Facebook_Logo.png");
 }
 
 body article [href^="https://linkedin.com/shareArticle"] {
-  background-image: url(/img/LinkedIn_Logo.svg);
+  background-image: url("{{ site.baseurl }}img/LinkedIn_Logo.svg");
 }
 
 body article .sharezone + * {

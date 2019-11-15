@@ -25,8 +25,8 @@ We looked at lots of existing spreadsheet components on the web to see whether t
 
 So, we decided to implement our own spreadsheet interface for the web. Without any further ado, here it is!
 
-<script type="text/javascript" src="{{ site.url }}/js/spreadsheet.js"></script>
-<link rel="stylesheet" href="{{ site.url }}/css/spreadsheet.css" />
+<script type="text/javascript" src="{{ site.baseurl }}js/spreadsheet.js"></script>
+<link rel="stylesheet" href="{{ site.baseurl }}css/spreadsheet.css" />
 <table class="register editing data">
   <thead>
     <tr>

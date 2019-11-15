@@ -7,7 +7,7 @@ excerpt: |
 ---
 Over our [many years of experience](https://www.register-dynamics.co.uk), we at Register Dynamics have noticed people struggle to make wider use of their most important datasets. There’s a gap for technology to help here, and that’s [why we built Registers.app](https://www.register-dynamics.co.uk/blog/usable-data-management-for-everyone.html). In this post, we explore some of the properties that make a Register an excellent fit for holding important shared data.
 
-![Registers are good enough to build things with.]({{ site.url }}/img/good-enough-to-build-things-on.png)
+![Registers are good enough to build things with.]({{ site.baseurl }}img/good-enough-to-build-things-on.png)
 
 ## Registers contain useful and usable data
 You’ve probably heard the R-word several times before, but may never have had a concrete explanation of what a Register is. So let’s start with the main question: what is a Register?

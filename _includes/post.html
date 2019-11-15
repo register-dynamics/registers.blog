@@ -7,7 +7,7 @@
   {% endfor %}
   <a href="{% if post.location %}{{ post.location }}{% else %}{{ post.url }}{% endif %}">
     <h2>{{ post.title }}</h2>
-    <img src="{{ site.baseurl }}{{ post.image }}"/>
+    <img src="{{ post.image | prepend: site.baseurl }}"/>
   </a>
   <a href="{{ biog.url | relative_url }}" itemprop="author">{{ post.author }}</a>
   <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%d %b %Y' }}</time>

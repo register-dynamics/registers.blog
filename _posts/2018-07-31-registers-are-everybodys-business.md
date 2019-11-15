@@ -6,7 +6,7 @@ image: img/register-composition.jpg
 
 Building useful things requires useful data. Data that remains locked behind propietary APIs in outdated formats and can't be automatically kept up-to-date makes building next generation services tricky, error prone and time consuming. This blog post discusses some of the issues through the lens of creating a list of businesses in the UK and proposes a solution that allows data to flow more freely whilst offering far stronger accountability than today's data sources.
 
-<img src="/img/register-composition.jpg">
+<img src="{{ site.baseurl }}img/register-composition.jpg">
 
 Imagine you want to provide a service to businesses. When someone applies, you need to be sure that the application refers to a real business. Maybe you're running a service that lets people [register for trademarks](https://www.gov.uk/how-to-register-a-trade-mark/apply), maybe you're an industry watchdog, or maybe another business selling something exclusively to other businesses.
 

@@ -4,7 +4,7 @@ layout: default
 <h1>{{ site.title }}</h1>
 <div class="biog">
 {% if page.image %}
-  <img src="{{ site.url }}/{{ page.image }}"/>
+  <img src="{{ page.image | prepend: site.baseurl }}"/>
 {% endif %}
 <h2>{{ page.title }}</h2>
 {{ content }}

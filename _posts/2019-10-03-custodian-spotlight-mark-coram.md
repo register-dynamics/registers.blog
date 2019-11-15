@@ -13,7 +13,7 @@ This is why we felt it important to help shine a light on the important work tha
 
 In today’s spotlight, we are delighted to introduce you to Mark Coram.
 
-![Mark Coram]({{ site.url }}/img/mark-coram.jpg)
+![Mark Coram]({{ site.baseurl }}img/mark-coram.jpg)
 
 **Welcome Mark! Please tell us more about yourself and your role as custodian.**
 

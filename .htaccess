@@ -1,5 +1,5 @@
 ---
 ---
 {% for post in site.posts %}
-Redirect 301 /{{ post.date | date: "%Y/%m/%d" }}/{{ post.slug }}.html {% if post.location %}{{ post.location }}{% else %}{{ site.url }}{{ post.url }}{% endif %}
+Redirect 301 /{{ post.date | date: "%Y/%m/%d" }}/{{ post.slug }}.html {% if post.location %}{{ post.location }}{% else %}{{ post.url | prepend: site.url }}{% endif %}
 {% endfor %}

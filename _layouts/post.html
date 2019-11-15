@@ -21,7 +21,7 @@ layout: default
 
   {% if biog.content %}
   <div class="biog">
-    <img src="{{ site.url }}/{{ biog.image }}"/>
+    <img src="{{ biog.image | prepend: site.baseurl }}"/>
     <span>{{ page.author }}</span>
     {{ biog.content | markdownify }}
   </div>

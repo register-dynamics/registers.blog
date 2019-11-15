@@ -19,7 +19,7 @@ When most people want to record something electronically, their first instinct i
 Problems arise when other teams or individuals need the data to run their processes, make decisions, or improve their services.
 
 ## Spreadsheets at scale cause problems
-![Person surrounded by many confusing coloured arrows]({{ site.url }}/img/spreadsheets-at-scale-are-confusing.png)
+![Person surrounded by many confusing coloured arrows]({{ site.baseurl }}img/spreadsheets-at-scale-are-confusing.png)
 
 There are two user needs that spreadsheets struggle with. First, more people want a copy of the data. Important datasets end up shared widely across the original organisation, often shared with external partners, and in a few cases published to the whole world.
 
@@ -47,7 +47,7 @@ Pushing all the data into a database system also takes away the benefits data ow
 In our experience working with organisations, we have observed that the first time a significant change needs to be made teams performing important business go back to using their spreadsheet. Updating the database becomes another time-consuming manual task for them.
 
 ## Registers get the balance right
-![A set of well balanced scales set against a green background]({{ site.url }}/img/registers-bring-balance-to-the-problem.jpg)
+![A set of well balanced scales set against a green background]({{ site.baseurl }}img/registers-bring-balance-to-the-problem.jpg)
 
 What if teams producing canonical data could continue to use their spreadsheets and others who need that data could consume it in a machine-readable, updatable and flexible way?
 

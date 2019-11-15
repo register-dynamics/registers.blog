@@ -21,7 +21,7 @@ But organisations that do this have just invented three hard problems for themse
 
 New versions of data can break systems, be they legacy or otherwise. The more complicated the data is, the more likely it is that whoever designed the system assumed some constraints about the data that no longer hold. Now that everyone has to use a central store that only has one “current” version, making changes to the data without checking that downstream systems will keep working is risky – it could break something.
 
-![Communication between teams is hard]({{ site.url }}/img/communication-between-teams-is-hard.svg)
+![Communication between teams is hard]({{ site.baseurl }}img/communication-between-teams-is-hard.svg)
 
 Many organisations handle this problem using a schedule. The team responsible for the central store publish a date and a description of what they’re going to update and communicate this to downstream consumers who make the appropriate checks and tests. If problems are found, there’s a delay to ensure the systems are updated to handle the data.
 
@@ -51,7 +51,7 @@ With no coordination required, the data can also now scale to a far greater numb
 
 But what does it actually mean to give everyone a “full copy” of data and to make integrating changes easy?
 
-![Keep data up-to-date]({{ site.url }}/img/registers-make-changes-easier.png)
+![Keep data up-to-date]({{ site.baseurl }}img/registers-make-changes-easier.png)
 
 ## Registers are updatable, automatable copies
 
