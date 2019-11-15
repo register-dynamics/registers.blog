@@ -172,3 +172,72 @@ table.register {
   font-size: 80%;
   color: black;
 }
+
+@media print {
+  article p {
+    font-size: 12pt;
+    line-height: 150%;
+  }
+
+  article {
+    margin: 2cm;
+  }
+
+  article a {
+    display: inline-block;
+  }
+
+  article a::after {
+    content: " (" attr(href) ")";
+  }
+
+  header, footer, article {
+    padding-left: 2cm;
+    padding-right: 2cm;
+  }
+
+  header {
+    padding-top: 2cm;
+  }
+
+  .sharezone {
+    display: none;
+  }
+
+  nav a:not(.home) {
+    display: none !important;
+  }
+
+  .biog {
+    break-before: avoid;
+    break-inside: avoid;
+  }
+
+  .biog img {
+    display: none; /* looks bad */
+  }
+
+  footer nav {
+    display: none;
+  }
+
+  footer a {
+    text-decoration: none;
+  }
+
+  footer a[href^='mailto:'] {
+    display: inline-block;
+  }
+
+  footer a[href^='mailto:']::after {
+    content: ": " attr(data-email);
+  }
+
+  @page {
+    margin: 2cm 0cm;
+  }
+
+  @page :first {
+    margin-top: 0cm;
+  }
+}
