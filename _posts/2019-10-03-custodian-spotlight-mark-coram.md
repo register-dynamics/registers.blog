@@ -17,7 +17,7 @@ In today’s spotlight, we are delighted to introduce you to Mark Coram.
 
 **Welcome Mark! Please tell us more about yourself and your role as custodian.**
 
-‘My name is Mark Coram. I manage two Registers of [Local Authority Types](https://registers.app/browse/ministry-of-housing-communities-and-local-government/local-authority-type) and [Local Authority Names](https://registers.app/browse/ministry-of-housing-communities-and-local-government/local-authority-eng).
+‘My name is Mark Coram. I manage two Registers of [Local Authority Types](https://registers.app/register/11:143) and [Local Authority Names](https://registers.app/register/11:130).
 
 I’ve been a Civil Servant for 31 years starting in Immigration (Working alongside my mum, brother and my sister-in-law), and then through Commercial Fire Safety Law, Park Homes (caravan sites in case you wondered) and Byelaws Officer before my current role.
 

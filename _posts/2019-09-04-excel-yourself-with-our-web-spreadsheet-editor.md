@@ -159,7 +159,7 @@ So, we decided to implement our own spreadsheet interface for the web. Without a
   </tbody>
 </table>
 
-The sheet is displaying a subset of the data from the Welsh Government’s [Principal Local Authority register](https://registers.app/browse/welsh-government/principal-local-authority).
+The sheet is displaying a subset of the data from the Welsh Government’s [Principal Local Authority register](https://registers.app/register/11:148).
 
 We’ve designed the interface to be familiar to users of desktop office programs. The look and feel of cursor movement and selection is familiar, and copy/paste and undo functionality are available. It sits on top of [an ordinary HTML table](https://github.com/register-dynamics/registers.blog/blob/master/{{ page.path }}) and falls back gracefully if Javascript is not running. In addition, it makes prominent space for column metadata and the side gutter can be used to display an indication of row changes (try editing or clearing a row!).
 
